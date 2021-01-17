@@ -1,13 +1,8 @@
 class DFS():
     '''
-    Only traverses the graph in the order given in input.
-    For any node u and v, the two intervals [pre[u], post[u]]
-    [pre[v], post[v]] are either disjoint or on is contained
-    within the other
-    what pre/post looks like based on types of edges u-v
-    Tree/forward = u v v u
-    back = v u u v
-    cross = v v u u
+    Linearazation of a DAG with part of depth first search.
+    To check the graph is a DAG we check that there is no back edge in the input graph.
+    Then linearaze it by sorting self.post in the decreasing order.
     '''
     def __init__(self, graph):
         self.graph = graph
@@ -17,6 +12,8 @@ class DFS():
         self.pre = dict.fromkeys(graph, -1)
         self.post = dict.fromkeys(graph, -1)
         self.clock = 0
+
+        self.isdag = True
 
     def _explore(self, v):
         '''
@@ -33,6 +30,18 @@ class DFS():
         #postvisit
         self.post[v] = self.clock
         self.clock += 1
+        
+    def is_dag(self):
+        '''
+        Go find a back edge for all the edges...
+        '''
+        for u in self.graph:
+            for v in self.graph[u]:
+                if self.pre[v] < self.pre[u] and self.post[u] < self.post[v]:
+                    return False
+        return True
+
+
     def dfs(self):
         # self.visited = dict.fromkeys(graph, False)
         for u in self.graph:
@@ -53,3 +62,4 @@ neo = DFS(graph)
 neo.dfs()
 print(neo.pre)
 print(neo.post)
+print(neo.is_dag())

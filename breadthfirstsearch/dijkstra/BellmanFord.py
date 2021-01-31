@@ -10,6 +10,13 @@ class BFS():
             and u is correctly set.
         2. It will never make the dist[v] too small.
         
+        Also, notice that the shortest path consists at most |V| - 1
+        edges. Because o/w there will be a cycle, but a path cannot have a cycle.
+        
+        Thus by updating dists of all nodes for |V| - 1 times, the shortest path
+        for all nodes from s will be updated according to the correct sequence of
+        updating
+        
         Args:
             s ([string]): the starting node of the shortest path.
 

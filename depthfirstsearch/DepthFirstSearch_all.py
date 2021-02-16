@@ -52,6 +52,29 @@ class DFS():
         self.clock += 1
         self.postmaxtomin = [v] + self.postmaxtomin
         # ---------------------
+        
+    def explore_l(self, v):
+        stack = [v]
+        while stack:
+            cur = stack[len(stack)-1]
+            if self.visited[cur]:
+                # postvisit
+                self.post[cur] = self.clock
+                self.clock += 1
+                self.postmaxtomin = [v] + self.postmaxtomin
+                # ---------------------
+                stack.pop()
+            else:
+                self.visited[cur] = True
+                # previsit
+                self.cc[cur] = self.ccc
+                self.pre[cur] = self.clock
+                self.clock += 1
+                # ---------------------
+                for u in self.graph[cur]:
+                    if not self.visited[u]:
+                        stack.append(u)
+                
 
     def is_dag(self):
         '''
@@ -111,7 +134,7 @@ class DFS():
 
 graph = {
     'A' : ['B','C'],
-    'B' : ['D', 'E'],
+    'B' : ['A','D', 'E'],
     'C' : ['F'],
     'D' : [],
     'E' : ['F'],
